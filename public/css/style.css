@@ -995,18 +995,6 @@ input:focus-visible{
   animation:shake 0.4s ease;
 }
 
-/* Skeleton loading for future use */
-.skeleton{
-  background:linear-gradient(90deg, rgba(163,133,255,0.1) 25%, rgba(163,133,255,0.2) 50%, rgba(163,133,255,0.1) 75%);
-  background-size:200% 100%;
-  animation:loading 1.5s infinite;
-  border-radius:8px;
-}
-@keyframes loading{
-  0%{background-position:200% 0}
-  100%{background-position:-200% 0}
-}
-
 /* Music visualizer effect (decorative) */
 .music-bars{
   display:flex;

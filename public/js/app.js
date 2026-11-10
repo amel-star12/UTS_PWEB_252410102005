@@ -5,39 +5,36 @@
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     // ===== Navigation Menu Toggle =====
     initMobileMenu();
-    
+
     // ===== Smooth Scrolling =====
     initSmoothScroll();
-    
+
     // ===== Keyboard Shortcuts =====
     initKeyboardShortcuts();
-    
+
     // ===== Form Enhancements =====
     initFormEnhancements();
-    
+
     // ===== Intersection Observer for Animations =====
     initAnimationObserver();
-    
+
     // ===== Vinyl Disc Click to Play/Pause =====
     initVinylInteraction();
-    
+
     // ===== Progress Bar Animation =====
     initProgressBar();
-    
+
     // ===== Table Row Highlight =====
     initTableInteraction();
-    
+
     // ===== Playlist Card Click =====
     initPlaylistCards();
-    
+
     // ===== Search Enhancement =====
     initSearchEnhancement();
-    
-    // ===== Toast Notifications (for future use) =====
-    window.showToast = showToast;
 });
 
 /**
@@ -46,13 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
 function initMobileMenu() {
     const toggle = document.getElementById('nav-toggle');
     const menu = document.getElementById('nav-menu');
-    
+
     if (toggle && menu) {
         toggle.addEventListener('click', function() {
             const isOpen = menu.classList.toggle('open');
             toggle.setAttribute('aria-expanded', isOpen);
             toggle.textContent = isOpen ? 'Tutup' : 'Menu';
-            
+
             // Close menu when clicking outside
             if (isOpen) {
                 document.addEventListener('click', closeMenuOutside);
@@ -60,7 +57,7 @@ function initMobileMenu() {
                 document.removeEventListener('click', closeMenuOutside);
             }
         });
-        
+
         function closeMenuOutside(e) {
             if (!menu.contains(e.target) && !toggle.contains(e.target)) {
                 menu.classList.remove('open');
@@ -80,16 +77,16 @@ function initSmoothScroll() {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             if (href === '#') return;
-            
+
             e.preventDefault();
             const target = document.querySelector(href);
-            
+
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
-                
+
                 // Update URL without triggering scroll
                 if (history.pushState) {
                     history.pushState(null, null, href);
@@ -113,7 +110,7 @@ function initKeyboardShortcuts() {
                 searchInput.select();
             }
         }
-        
+
         // Escape: Clear search or close mobile menu
         if (e.key === 'Escape') {
             // Clear search if focused
@@ -125,7 +122,7 @@ function initKeyboardShortcuts() {
                 }
                 return;
             }
-            
+
             // Close mobile menu
             const menu = document.getElementById('nav-menu');
             const toggle = document.getElementById('nav-toggle');
@@ -153,7 +150,7 @@ function initFormEnhancements() {
                 btn.style.opacity = '0.7';
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<span>⏳ Memproses...</span>';
-                
+
                 // Prevent multiple submits
                 setTimeout(() => {
                     if (this.checkValidity()) {
@@ -168,7 +165,7 @@ function initFormEnhancements() {
             }
         });
     });
-    
+
     // Real-time validation feedback
     document.querySelectorAll('input[required]').forEach(input => {
         input.addEventListener('blur', function() {
@@ -178,7 +175,7 @@ function initFormEnhancements() {
                 this.style.borderColor = '#4ee8ff';
             }
         });
-        
+
         input.addEventListener('input', function() {
             if (this.value.trim() !== '') {
                 this.style.borderColor = '';
@@ -192,7 +189,7 @@ function initFormEnhancements() {
  */
 function initAnimationObserver() {
     if (!('IntersectionObserver' in window)) return;
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -204,7 +201,7 @@ function initAnimationObserver() {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     });
-    
+
     // Observe cards and stats
     document.querySelectorAll('.card, .stat, .grid > *').forEach(el => {
         el.style.opacity = '0';
@@ -219,15 +216,15 @@ function initAnimationObserver() {
  */
 function initVinylInteraction() {
     const discs = document.querySelectorAll('.disc');
-    
+
     discs.forEach(disc => {
         disc.addEventListener('click', function() {
             if (this.classList.contains('spin')) {
-                this.style.animationPlayState = 
+                this.style.animationPlayState =
                     this.style.animationPlayState === 'paused' ? 'running' : 'paused';
             }
         });
-        
+
         disc.style.cursor = 'pointer';
         disc.setAttribute('role', 'button');
         disc.setAttribute('aria-label', 'Animation control');
@@ -239,11 +236,11 @@ function initVinylInteraction() {
  */
 function initProgressBar() {
     const progressBars = document.querySelectorAll('.progress span');
-    
+
     progressBars.forEach(bar => {
         const targetWidth = bar.style.width || '38%';
         bar.style.width = '0';
-        
+
         setTimeout(() => {
             bar.style.transition = 'width 1.5s ease';
             bar.style.width = targetWidth;
@@ -256,15 +253,15 @@ function initProgressBar() {
  */
 function initTableInteraction() {
     const tableRows = document.querySelectorAll('tbody tr');
-    
+
     tableRows.forEach(row => {
         row.addEventListener('click', function() {
             // Remove active class from all rows
             tableRows.forEach(r => r.classList.remove('active-row'));
-            
+
             // Add active class to clicked row
             this.classList.add('active-row');
-            
+
             // Add style for active row
             const style = document.createElement('style');
             style.textContent = `
@@ -278,7 +275,7 @@ function initTableInteraction() {
                 document.head.appendChild(style);
             }
         });
-        
+
         row.style.cursor = 'pointer';
     });
 }
@@ -288,17 +285,17 @@ function initTableInteraction() {
  */
 function initPlaylistCards() {
     const playlistCards = document.querySelectorAll('.playlist');
-    
+
     playlistCards.forEach(card => {
         // Add ripple effect on click
         card.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
             ripple.classList.add('ripple-effect');
-            
+
             const rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             ripple.style.cssText = `
                 position: absolute;
                 width: 10px;
@@ -311,11 +308,11 @@ function initPlaylistCards() {
                 left: ${x}px;
                 top: ${y}px;
             `;
-            
+
             this.style.position = 'relative';
             this.style.overflow = 'hidden';
             this.appendChild(ripple);
-            
+
             // Add ripple animation if not exists
             if (!document.getElementById('ripple-style')) {
                 const style = document.createElement('style');
@@ -330,7 +327,7 @@ function initPlaylistCards() {
                 `;
                 document.head.appendChild(style);
             }
-            
+
             setTimeout(() => ripple.remove(), 600);
         });
     });
@@ -341,9 +338,9 @@ function initPlaylistCards() {
  */
 function initSearchEnhancement() {
     const searchInput = document.querySelector('.search-input');
-    
+
     if (!searchInput) return;
-    
+
     // Auto-focus on page load if search parameter exists
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('search')) {
@@ -353,11 +350,11 @@ function initSearchEnhancement() {
             searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
         }, 300);
     }
-    
+
     // Real-time character counter (optional)
     searchInput.addEventListener('input', function() {
         const value = this.value.trim();
-        
+
         // Optional: Add min length hint
         if (value.length > 0 && value.length < 2) {
             this.style.borderColor = 'var(--amber)';
@@ -367,79 +364,13 @@ function initSearchEnhancement() {
             this.style.borderColor = '';
         }
     });
-    
+
     // Submit on Enter
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             this.closest('form').submit();
         }
     });
-}
-
-/**
- * Toast Notification (for future use)
- */
-function showToast(message, type = 'info', duration = 3000) {
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    
-    // Add toast styles if not exists
-    if (!document.getElementById('toast-style')) {
-        const style = document.createElement('style');
-        style.id = 'toast-style';
-        style.textContent = `
-            .toast {
-                position: fixed;
-                bottom: 2rem;
-                right: 2rem;
-                padding: 1rem 1.5rem;
-                background: rgba(26,18,48,0.95);
-                border: 1px solid rgba(163,133,255,0.3);
-                border-radius: 12px;
-                color: white;
-                font-weight: 500;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-                animation: toast-slide-in 0.3s ease;
-                z-index: 9999;
-                max-width: 300px;
-            }
-            .toast-success {
-                border-left: 4px solid #4dff88;
-            }
-            .toast-error {
-                border-left: 4px solid #ff4d8a;
-            }
-            .toast-info {
-                border-left: 4px solid #4ee8ff;
-            }
-            @keyframes toast-slide-in {
-                from {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            @keyframes toast-slide-out {
-                to {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    document.body.appendChild(toast);
-    
-    // Remove toast after duration
-    setTimeout(() => {
-        toast.style.animation = 'toast-slide-out 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
 }
 
 /**
@@ -472,7 +403,6 @@ function isInViewport(element) {
 
 // Expose utilities to global scope
 window.PutarApp = {
-    showToast,
     debounce,
     isInViewport
 };
