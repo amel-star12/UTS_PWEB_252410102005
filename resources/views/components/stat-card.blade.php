@@ -1,0 +1,6 @@
+@props(['label', 'value'])
+
+<div class="stat">
+    <div class="stat-value">{{ $value }}</div>
+    <div class="stat-label">{{ $label }}</div>
+</div>
